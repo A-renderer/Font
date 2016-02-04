@@ -134,6 +134,28 @@ public:
 		return trans;
 	}
 
+	void floodFill(x, y, r_target, g_target, b_target, r_rep, g_rep, b_rep) {
+		if (r_target!=r_rep && g_target!=g_rep && b_target!=b_rep){
+			
+			// Get the pixel's color
+			int r_node = getR(x,y);
+			int g_node = getG(x,y);
+			int b_node = getB(x,y);
+
+			if(r_node==r_target && g_node==g_target && b_node==b_target)
+			{
+				// Fill the pixel with the replacement color
+				putPixel(new Point(x,y), r_rep, g_rep, b_rep, 100)
+
+				floodFill(x+1,y, r_target, g_target, b_target, r_rep, g_rep, b_rep); //east
+				floodFill(x-1,y, r_target, g_target, b_target, r_rep, g_rep, b_rep); //west
+				floodFill(x, y+1, r_target, g_target, b_target, r_rep, g_rep, b_rep); //north
+				floodFill(x,y-1, r_target, g_target, b_target, r_rep, g_rep, b_rep); //south
+			}
+		}
+
+	}
+
 private:
 	struct fb_var_screeninfo vinfo;
 	struct fb_fix_screeninfo finfo;
