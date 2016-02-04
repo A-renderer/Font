@@ -134,9 +134,8 @@ public:
 		return trans;
 	}
 
-	void floodFill(x, y, r_target, g_target, b_target, r_rep, g_rep, b_rep) {
-		if (r_target!=r_rep && g_target!=g_rep && b_target!=b_rep){
-			
+	void floodFill(int x, int y, int r_target, int g_target, int b_target, int r_rep, int g_rep, int b_rep) {
+		if (r_target!=r_rep || g_target!=g_rep || b_target!=b_rep){
 			// Get the pixel's color
 			int r_node = getR(x,y);
 			int g_node = getG(x,y);
@@ -145,7 +144,7 @@ public:
 			if(r_node==r_target && g_node==g_target && b_node==b_target)
 			{
 				// Fill the pixel with the replacement color
-				putPixel(new Point(x,y), r_rep, g_rep, b_rep, 100)
+				putPixel(Point(x,y), r_rep, g_rep, b_rep, 0);
 
 				floodFill(x+1,y, r_target, g_target, b_target, r_rep, g_rep, b_rep); //east
 				floodFill(x-1,y, r_target, g_target, b_target, r_rep, g_rep, b_rep); //west
@@ -153,7 +152,20 @@ public:
 				floodFill(x,y-1, r_target, g_target, b_target, r_rep, g_rep, b_rep); //south
 			}
 		}
+	}
 
+	void clearscreen(){
+	    int x,y;
+	    for (x=0; x<750; x++){
+	        for (y=0; y<500; y++){
+	            location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
+	                           (y+vinfo.yoffset) * finfo.line_length;
+	            *(fbp + location) = 0;        // blue
+	            *(fbp + location + 1) = 255;      // green
+	            *(fbp + location + 2) = 0;      // red
+	            *(fbp + location + 3) = 0;      // transparency
+	        }
+	    }
 	}
 
 private:

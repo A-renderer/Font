@@ -37,6 +37,7 @@ public:
 
 	int n; //jumlah titik
 	vector<Point> e; //titik2 poligon
+	Point firePoint;
 
 private:
 
