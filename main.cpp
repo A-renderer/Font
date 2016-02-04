@@ -10,7 +10,7 @@ FrameBuffer FB;
 
 int main()
 {
-	int size = 20;
+	int size = 10;
 	int col;
 	vector<Point> e;
 	
@@ -24,8 +24,8 @@ int main()
 	Polygon Poly_V(e);
 	Poly_V.firePoint = Point(font_V[col-1][0]*size,font_V[col-1][1]*size);
 	
-	FB.drawPolygon(Poly_V.e,0,255,255,0);
-	FB.floodFill(Poly_V.firePoint.x, Poly_V.firePoint.y, 0, 255, 0, 255, 0, 0);
+	FB.drawPolygon(Poly_V.e,25,25,122,0);
+	FB.floodFill(Poly_V.firePoint.x, Poly_V.firePoint.y, 255, 182, 193, 100, 149, 237);
 
 	e.clear();
 	

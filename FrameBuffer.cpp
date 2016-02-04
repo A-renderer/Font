@@ -156,13 +156,13 @@ public:
 
 	void clearscreen(){
 	    int x,y;
-	    for (x=0; x<750; x++){
-	        for (y=0; y<500; y++){
+	    for (x=0; x<1366; x++){
+	        for (y=0; y<512; y++){
 	            location = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
 	                           (y+vinfo.yoffset) * finfo.line_length;
-	            *(fbp + location) = 0;        // blue
-	            *(fbp + location + 1) = 255;      // green
-	            *(fbp + location + 2) = 0;      // red
+	            *(fbp + location) = 193;        // blue
+	            *(fbp + location + 1) = 182;      // green
+	            *(fbp + location + 2) = 255;      // red
 	            *(fbp + location + 3) = 0;      // transparency
 	        }
 	    }
