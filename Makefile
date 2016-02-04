@@ -1,13 +1,8 @@
 all:
-	g++ -c Point.h Point.cpp
-	g++ -c Line.h Line.cpp
-	g++ -c FrameBuffer.cpp
-	g++ -o gg FrameBuffer.o Point.o Line.o main.cpp
+	g++ -o main FrameBuffer.cpp Point.cpp Line.cpp main.cpp
 
 run:
-	./gg
+	./main
 
 clean:
-	rm *.o
-	rm *.gch
-	rm gg
+	rm main

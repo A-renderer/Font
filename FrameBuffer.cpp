@@ -4,7 +4,7 @@ class FrameBuffer {
 public:
 
 	FrameBuffer() {
-		fbfd = open("/dev/fb0", O_RDWR);
+	fbfd = open("/dev/fb0", O_RDWR);
     if (fbfd == -1) {
         perror("Error: cannot open framebuffer device");
         exit(1);
@@ -58,24 +58,24 @@ public:
 		return fbp;
 	}
 
-	void putPixel(Point P, int r, int g, int b, int t) {
+	void putPixel(Point P, int r, int g, int b, int a) {
 		location = (P.x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
                            (P.y+vinfo.yoffset) * finfo.line_length;
 
 		*(fbp + location) = b; // blue 
         *(fbp + location + 1) = g;  // green
         *(fbp + location + 2) = r; // red
-        *(fbp + location + 3) = t; // transparency
+        *(fbp + location + 3) = a; // transparency
 	}
 
-	void drawLine(Point P1, Point P2, int r, int g, int b, int t) {
+	void drawLine(Point P1, Point P2, int r, int g, int b, int a) {
 		int dx =  abs(P2.x-P1.x), sx = P1.x<P2.x ? 1 : -1; //sign value for x
 	   	int dy = -abs(P2.y-P1.y), sy = P1.y<P2.y ? 1 : -1;  //sign value for y
 	   	int err = dx+dy; int e2; /* error value e_xy */
 	 
 	   	for(;;){  /* loop */
 	   		Point Ptemp(P1.x,P1.y);
-	    	putPixel(Ptemp,r,g,b,t);
+	    	putPixel(Ptemp,r,g,b,a);
 
 	      	if (P1.x==P2.x && P1.y==P2.y) break; //berarti titik berhimpit
 	      	e2 = 2*err;
@@ -84,19 +84,10 @@ public:
 	   	}
 	}
 
-	void drawLinePrimitive(int x1, int y1, int x2, int y2, int r, int g, int b, int t) {
-		int dx =  abs(x2-x1), sx = x1<x2 ? 1 : -1;
-	   	int dy = -abs(y2-y1), sy = y1<y2 ? 1 : -1; 
-	   	int err = dx+dy; int e2; /* error value e_xy */
-	 
-	   	for(;;){  /* loop */
-	   		Point P(x1,y1);
-	    	putPixel(P,r,g,b,t);
-	      	if (x1==x2 && y1==y2) break;
-	      	e2 = 2*err;
-	      	if (e2 >= dy) { err += dy; x1 += sx; } /* e_xy+e_x > 0 */
-	      	if (e2 <= dx) { err += dx; y1 += sy; } /* e_xy+e_y < 0 */
-	   	}
+	void drawPolygon(Polygon P, int r, int g, int b, int a) {
+		for (int i=0; i<P.n-1; ++i) {
+			drawLine(P.e[i], P.e[i+1], r, g, b, a);
+		}
 	}
 
 private:
