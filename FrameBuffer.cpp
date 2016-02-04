@@ -90,6 +90,50 @@ public:
 		}
 	}
 
+	int getB(int x, int y){
+		int blue;
+		int color = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
+                           (y+vinfo.yoffset) * finfo.line_length;
+		blue = *(fbp + color); 
+		if(blue < 0) {
+			blue+=256;
+		}
+		return blue;
+	}
+
+	int getG(int x, int y){
+		int green;
+		int color = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
+                           (y+vinfo.yoffset) * finfo.line_length;
+		green = *(fbp + color + 1); 
+		if(green < 0){
+			green+=256;
+		}	
+		return green;	
+	}	
+
+	int getR(int x, int y){
+		int red;
+		int color = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
+                           (y+vinfo.yoffset) * finfo.line_length;
+		red = *(fbp + color + 2); 
+		if(red < 0){
+			red+=256;
+		}
+		return red;
+	}		
+		
+	int getA(int x, int y){
+		int trans;
+		int color = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
+                           (y+vinfo.yoffset) * finfo.line_length;
+		trans = *(fbp + color + 3); 
+		if(trans < 0){
+			trans+=256;
+		}
+		return trans;
+	}
+
 private:
 	struct fb_var_screeninfo vinfo;
 	struct fb_fix_screeninfo finfo;
