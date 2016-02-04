@@ -2,15 +2,12 @@
 #define POLYGON_H
 
 #include "Point.h"
-#include <string.h>
-#include <vector>
-#include <math.h>
+#include <string>
+#include "math.h"
 
 class Polygon {
 public:
 	Polygon();
-
-	Polygon (string nama); //ini buat nama
 
 	Polygon(vector<Point> P);
 

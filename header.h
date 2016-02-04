@@ -14,6 +14,9 @@
 #include <sys/ioctl.h>
 #include <termios.h>
 #include <unistd.h>
+#include <vector>
+#include <math.h>
+#include <cstring>
 
 using namespace std;
 

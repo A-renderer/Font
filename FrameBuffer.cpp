@@ -1,4 +1,4 @@
-#include "Line.h"
+#include "Polygon.h"
 
 class FrameBuffer {
 public:
