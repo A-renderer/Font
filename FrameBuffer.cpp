@@ -57,39 +57,7 @@ public:
 	char* getfbp() {
 		return fbp;
 	}
-
-	void putPixel(Point P, int r, int g, int b, int a) {
-		location = (P.x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
-                           (P.y+vinfo.yoffset) * finfo.line_length;
-
-		*(fbp + location) = b; // blue 
-        *(fbp + location + 1) = g;  // green
-        *(fbp + location + 2) = r; // red
-        *(fbp + location + 3) = a; // transparency
-	}
-
-	void drawLine(Point P1, Point P2, int r, int g, int b, int a) {
-		int dx =  abs(P2.x-P1.x), sx = P1.x<P2.x ? 1 : -1; //sign value for x
-	   	int dy = -abs(P2.y-P1.y), sy = P1.y<P2.y ? 1 : -1;  //sign value for y
-	   	int err = dx+dy; int e2; /* error value e_xy */
-	 
-	   	for(;;){  /* loop */
-	   		Point Ptemp(P1.x,P1.y);
-	    	putPixel(Ptemp,r,g,b,a);
-
-	      	if (P1.x==P2.x && P1.y==P2.y) break; //berarti titik berhimpit
-	      	e2 = 2*err;
-	      	if (e2 >= dy) { err += dy; P1.x += sx; } /* e_xy+e_x > 0 */
-	      	if (e2 <= dx) { err += dx; P1.y += sy; } /* e_xy+e_y < 0 */
-	   	}
-	}
-
-	void drawPolygon(Polygon P, int r, int g, int b, int a) {
-		for (int i=0; i<P.n-1; ++i) {
-			drawLine(P.e[i], P.e[i+1], r, g, b, a);
-		}
-	}
-
+	
 	int getB(int x, int y){
 		int blue;
 		int color = (x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
@@ -134,6 +102,38 @@ public:
 		return trans;
 	}
 
+	void putPixel(Point P, int r, int g, int b, int a) {
+		location = (P.x+vinfo.xoffset) * (vinfo.bits_per_pixel/8) +
+                           (P.y+vinfo.yoffset) * finfo.line_length;
+
+		*(fbp + location) = b; // blue 
+        *(fbp + location + 1) = g;  // green
+        *(fbp + location + 2) = r; // red
+        *(fbp + location + 3) = a; // transparency
+	}
+
+	void drawLine(Point P1, Point P2, int r, int g, int b, int a) {
+		int dx =  abs(P2.x-P1.x), sx = P1.x<P2.x ? 1 : -1; //sign value for x
+	   	int dy = -abs(P2.y-P1.y), sy = P1.y<P2.y ? 1 : -1;  //sign value for y
+	   	int err = dx+dy; int e2; /* error value e_xy */
+	 
+	   	for(;;){  /* loop */
+	   		Point Ptemp(P1.x,P1.y);
+	    	putPixel(Ptemp,r,g,b,a);
+
+	      	if (P1.x==P2.x && P1.y==P2.y) break; //berarti titik berhimpit
+	      	e2 = 2*err;
+	      	if (e2 >= dy) { err += dy; P1.x += sx; } /* e_xy+e_x > 0 */
+	      	if (e2 <= dx) { err += dx; P1.y += sy; } /* e_xy+e_y < 0 */
+	   	}
+	}
+
+	void drawPolygon(Polygon P, int r, int g, int b, int a) {
+		for (int i=0; i<P.n-1; ++i) {
+			drawLine(P.e[i], P.e[i+1], r, g, b, a);
+		}
+	}
+	
 	void floodFill(int x, int y, int r_target, int g_target, int b_target, int r_rep, int g_rep, int b_rep) {
 		if (r_target!=r_rep || g_target!=g_rep || b_target!=b_rep){
 			// Get the pixel's color

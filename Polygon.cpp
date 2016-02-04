@@ -99,6 +99,7 @@ void Polygon::moveRight(float dx) {
 		e[i].x+=dx;
 		i++;
 	}
+	firePoint.x+=dx;
 }
 
 void Polygon::moveLeft(float dx) {
@@ -108,6 +109,7 @@ void Polygon::moveLeft(float dx) {
 		e[i].x-=dx;
 		i++;
 	}
+	firePoint.x-=dx;
 }
 
 
@@ -118,6 +120,7 @@ void Polygon::moveUp(float dy) {
 		e[i].y-=dy;
 		i++;
 	}
+	firePoint.x-=dy;
 }
 
 void Polygon::moveDown(float dy) {
@@ -127,4 +130,5 @@ void Polygon::moveDown(float dy) {
 		e[i].y+=dy;
 		i++;
 	}
+	firePoint.y+=dy;
 }
